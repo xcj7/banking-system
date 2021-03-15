@@ -1,0 +1,707 @@
+using System;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+
+
+public class Address
+    {
+
+    public string rood_no{ get; set; }
+    public string house_no{ get; set; }
+    public string city_name{ get; set; }
+    public string country_name{ get; set; }
+
+public Address()
+{
+
+}
+  
+
+
+
+  
+   public Address(string road,string house,string city,string country)
+    {
+        rood_no=road;
+       house_no = house;
+       city_name=city;
+      country_name = country;
+     
+    }
+
+   
+  //  public Address(string nam,string date,string road,string house,string city,string country)
+  //   {
+  //       name = nam;
+  //       date_of_birth = date
+  //       rood_no = road;
+  //      house_no = house;
+  //      city_name=city;
+  //     country_name = country;
+     
+  //   }
+   
+
+
+
+public string get_address()
+{
+  string a="";
+
+  a =" "+rood_no +", "+ house_no +" ,"+ city_name +" ,"+ country_name;
+  return a;
+}
+
+
+
+    }
+
+
+
+
+
+
+public class Account 
+    {
+
+
+    public int account_number;
+    public string account_name{ get; set; }
+    public string date_of_birth{ get; set; }
+    public double account_balance{ get; set; }
+    public string account_type{ get; set; }
+    public static double balance_counter = 0;
+      public  int transfer_counter ;
+   public  Address account_address;
+    
+    
+public Account()
+{
+
+}
+  
+  //  public Account(string a_name,double balance,Address address)
+  //   {
+  //     Random r = new Random();
+  //       int n = r.Next();
+
+  //      account_number = n;
+  //      account_name = a_name;
+  //      account_balance = balance;
+  //      account_address = address;
+
+      
+     
+  //   }
+  
+
+     public Account(string a_name,string date,double balance,Address address,string type)
+    {
+      Random r = new Random();
+        int n = r.Next();
+
+       account_number = n;
+       account_name = a_name;
+       date_of_birth = date ;
+       account_balance = balance;
+       account_address = address;
+       account_type = type;
+
+      
+     
+    }
+
+
+    public double  withdraw(double amount)
+    {
+      this.account_balance = this.account_balance - amount;
+
+      return account_balance;
+
+    }
+
+
+    public double deposite( double amount)
+    {
+       account_balance = account_balance + amount;
+
+      return account_balance;
+    }
+    public void  transfer(Account reciver,double amount)
+    {
+        reciver.account_balance = reciver.account_balance + amount; 
+         account_balance = account_balance - amount;
+
+
+    }
+     public void  account_transfer_times()
+    {
+           transfer_counter = transfer_counter + 1 ; 
+          //return transfer_counter;
+
+
+    }
+     public int  account_transfer_counter()
+    {
+          // transfer_counter = transfer_counter + 1 ; 
+          return transfer_counter;
+
+
+    }
+
+    public void show_account_information()
+    {
+
+           Console.WriteLine("account_no :{0}", this.account_number);
+         Console.WriteLine("account_name :{0}", this.account_name); 
+         Console.WriteLine("account_balance :{0}", this.account_balance); 
+         Console.WriteLine("account_address :{0}", this.account_address.get_address()); 
+         
+        
+
+
+    }
+
+
+
+
+
+   
+    }
+
+
+
+
+public  class  Bank
+    {
+
+ public string bank_name{ get; set; }
+ Account[] Account = new Account[100];
+public static int aa = -1;
+public static int tt = 0;
+
+
+
+
+      public Bank()
+      {
+
+      }
+      public Bank(string name)
+      {
+        bank_name = name;
+
+
+
+
+      }
+
+public void add_account(Account account)
+{
+//Console.WriteLine("\n Enter index number ( 0 - 99 )  in which you want to add this account,account name  {0} : \n",account.account_name);
+
+//int aa =Convert.ToInt32(Console.ReadLine());
+if(aa < Account.Length)
+{
+ aa = aa + 1;
+    Account[aa] = new Account();
+    
+    
+ Account[aa].account_number = account.account_number;
+  Account[aa].account_name = account.account_name;
+  Account[aa].date_of_birth = account.date_of_birth;
+  Account[aa].account_balance = account.account_balance;
+  Account[aa].account_address = account.account_address;
+  Account[aa].account_type = account.account_type;
+
+
+  
+
+}
+else
+{
+  Console.WriteLine("\n sorry can not open a account because of the storage limitation !! \n ");
+}
+
+
+}
+
+public Account search_person(string name,string date_of_birth1)
+{
+  Account customer0=new Account();
+  try{
+       for(int j=0;j<Account.Length;j++)
+{
+  try{
+if (Account[j].account_name == name && Account[j].date_of_birth == date_of_birth1 )
+{
+
+customer0 = Account[j];
+ 
+}
+    }catch(Exception )
+    {
+      
+    }
+}
+
+
+  }catch(Exception)
+  {
+
+  }
+ return customer0;
+
+}
+
+
+
+
+
+
+
+
+public void delete_account(int account_no)
+{
+
+
+Console.WriteLine("\n after deleting account_no->## {0} ",account_no );
+for(int j=0;j<Account.Length;j++)
+{
+  try{
+if (Account[j].account_number == account_no )
+{
+ // Console.WriteLine("name ->#># {0} ",book[j].name );
+Account[j] = new Account();
+ 
+}
+    }catch(Exception )
+    {
+      //Console.WriteLine("no books in this place of the library");
+    }
+}
+
+
+
+
+
+}
+
+
+public void  Print_account_details()
+{
+Console.WriteLine("showing all the Account of this {0} bank : \n",this.bank_name);
+  for(int i=0;i<Account.Length;i++)
+  {
+    try{
+      if(Account[i].account_balance >=0 )
+      {
+    Console.WriteLine($"..............account place no : {i}  ................");
+    Console.WriteLine(" account_number: {0}",this.Account[i].account_number);
+    Console.WriteLine(" account_name: {0}",Account[i].account_name );
+    Console.WriteLine(" account_balance: {0}",Account[i].account_balance);
+    Console.WriteLine(" date of birth : {0}",Account[i].date_of_birth );
+    Console.WriteLine(" account_address: {0}",Account[i].account_address.get_address());
+  
+    }
+    }catch(Exception )
+    {
+      //Console.WriteLine("no books in this place of the library");
+    }
+
+  }
+
+}
+
+
+
+
+  
+public void  show_account_balance_tranziton_times(Account itself)
+ {
+   try{
+Console.WriteLine("\n showing this accounts information  of {0} : \n",this.bank_name);
+  for(int i=0;i<Account.Length;i++)
+  {
+    if(Account[i].account_number==itself.account_number)
+    {
+ try{
+      if(Account[i].account_balance >=0 )
+      {
+    Console.WriteLine($"..............account place no : {i}  ................");
+    Console.WriteLine(" account_number: {0}",this.Account[i].account_number);
+
+    Console.WriteLine(" account_balance: {0}",Account[i].account_balance);
+    Console.WriteLine(" this account has successfully transfered money  : {0} times ",Account[i].transfer_counter);
+    //vv=0;
+  
+  
+    }
+    }catch(Exception )
+    {
+      //Console.WriteLine("no books in this place of the library");
+    }
+    }
+
+    }
+   }catch(Exception)
+   {
+
+   }
+   
+
+   }
+
+
+
+
+
+
+public void Transaction(int transaction_type,Account itself)
+{
+
+
+
+
+  
+  if(transaction_type == 1)
+  {
+   
+       Console.WriteLine("\n Enter the ammount  that  you({0}) want  to transfer   : \n",itself.account_name);
+         double amount = double.Parse(Console.ReadLine());
+
+
+
+
+    Console.WriteLine("\n Enter the account number  where you want  to transfer  {0 } taka   : \n",amount);
+    int transfered_account_no = Convert.ToInt32(Console.ReadLine());
+
+
+
+  for(int j=0;j<Account.Length;j++)
+{
+  try{
+if (Account[j].account_number == itself.account_number  &&  Account[j].account_name == itself.account_name)
+{
+
+//Account[j] = new Account();
+Account[j].account_balance = itself.withdraw(amount);
+Account[j].transfer_counter = Account[j].transfer_counter + 1  ;
+ 
+}
+if (Account[j].account_number == transfered_account_no)
+{
+
+//Account[j] = new Account();
+Account[j].account_balance = Account[j].deposite(amount);
+
+ //tt = tt + 1;
+ 
+}
+    }catch(Exception )
+    {
+      //Console.WriteLine("no books in this place of the library");
+    }
+}
+
+
+
+  }
+  
+  
+
+
+
+  
+  if(transaction_type == 2)
+  {
+Console.WriteLine("\n Enter the amount that will be deposited to account_name  {0} : \n",itself.account_name);
+
+
+ double amount = double.Parse(Console.ReadLine());
+//itself.deposite(amount);
+for(int j=0;j<Account.Length;j++)
+{
+  try{
+if (Account[j].account_number == itself.account_number  &&  Account[j].account_name == itself.account_name)
+{
+
+//Account[j] = new Account();
+Account[j].account_balance = itself.deposite(amount);
+break;
+ 
+}
+    }catch(Exception )
+    {
+      //Console.WriteLine("no books in this place of the library");
+    }
+}
+
+
+  }
+
+
+
+
+
+if(transaction_type == 3)
+  {
+      Console.WriteLine("\n Enter the amount that will be withdrawn  from account_name  {0} : \n",itself.account_name);
+
+
+// double amount = double.Parse(Console.ReadLine());
+//itself.withdraw(amount);
+ double amount = double.Parse(Console.ReadLine());
+//itself.deposite(amount);
+for(int j=0;j<Account.Length;j++)
+{
+  try{
+if (Account[j].account_number == itself.account_number  &&  Account[j].account_name == itself.account_name)
+{
+
+//Account[j] = new Account();
+if(Account[j].account_balance - amount > 0 && Account[j].account_type == "saving")
+{
+Account[j].account_balance = itself.withdraw(amount);
+}
+else{
+  Console.WriteLine("can't  withdraw an ammount that will make the saving account balance < 0");
+}
+if(Account[j].account_balance - amount >= 0 && Account[j].account_type == "checking")
+{
+Account[j].account_balance = itself.withdraw(amount);
+}
+
+ 
+}
+    }catch(Exception )
+    {
+      //Console.WriteLine("no books in this place of the library");
+    }
+}
+
+
+  }
+
+
+}
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+public static class  Bank_main {  
+    public static   int Main(string[] args) {  
+  
+//         Address d = new Address("12","2/56a","Dinajpur","Bangladesh");  
+//         Address d1 = new Address("12","2/56a","Dinajpur","england");  
+//          Console.WriteLine(" {0} ",d.get_address());
+//         //     string aaa;
+//         //  Console.WriteLine("\n give a name :\n");
+//         //  aaa=Console.ReadLine();
+
+//          Account a1 = new Account("muna ","1/10/2001",14000.00,d);
+//          a1.show_account_information();
+//          Account a = new Account("uddipta","1/10/2001",500.00,d1);
+//          Account a2 = new Account("juli","1/10/2001",5400.00,d1);
+      
+// //string a_name,double balance,Address address
+// Bank b= new Bank("devoloper Bank ");
+// b.add_account(a);
+// b.add_account(a1);
+// b.add_account(a2);
+// b.Print_account_details();
+// Console.WriteLine("\n  give the account_no which should be deleted : \n");
+// int account_num =Convert.ToInt32(Console.ReadLine());
+// b.delete_account(account_num);
+// b.Print_account_details();
+// b.Transaction(1,a1);
+// b.Transaction(2,a1);
+// b.Print_account_details();
+// b.Transaction(3,a1);
+// b.Print_account_details();
+// b.show_account_balance_tranziton_times(a);
+// b.Transaction(1,a1);
+// b.show_account_balance_tranziton_times(a);
+// b.show_account_balance_tranziton_times(a2);
+
+
+Bank b= new Bank("devoloper Bank ");
+string choice ;
+int g=0;
+
+while(g !=1 )
+{
+Console.WriteLine("\n Give an input open/account/quit \n");
+choice = Console.ReadLine();
+
+switch (choice) 
+{
+  case "open":
+
+while(g!=2)
+{
+Console.WriteLine("    Give an input saving/checking/quit \n");
+string choice1 = Console.ReadLine();
+
+
+switch(choice1)
+  {
+    case "saving":
+    Console.WriteLine("name : \n");
+    string v1=Console.ReadLine();
+    Console.WriteLine("date of birth : \n");
+    string v2=Console.ReadLine();
+    Console.WriteLine("country : \n");
+    string v3=Console.ReadLine();
+    Console.WriteLine("district : \n");
+    string v4=Console.ReadLine();
+    Console.WriteLine("road no : \n");
+    string v5=Console.ReadLine();
+    Console.WriteLine("house no  : \n");
+    string v6=Console.ReadLine();
+
+    Console.WriteLine("ammount : \n");
+    double v7 = double.Parse(Console.ReadLine());
+
+//         Address d = new Address("12","2/56a","Dinajpur","Bangladesh");  
+//          Account a2 = new Account("juli","1/10/2001",5400.00,d1);
+Address d1 = new Address(v6,v5,v4,v3);
+Account a1 = new Account(v1,v2,v7,d1,"saving");
+b.add_account(a1);
+//b.Print_account_details();
+Console.WriteLine("  successfully account created !! \n");
+
+    break;
+    case "checking":
+    Console.WriteLine("name : \n");
+    string v11=Console.ReadLine();
+    Console.WriteLine("date of birth : \n");
+    string v22=Console.ReadLine();
+    Console.WriteLine("country : \n");
+    string v33=Console.ReadLine();
+    Console.WriteLine("district : \n");
+    string v44=Console.ReadLine();
+    Console.WriteLine("road no : \n");
+    string v55=Console.ReadLine();
+    Console.WriteLine("house no  : \n");
+    string v66=Console.ReadLine();
+
+    Console.WriteLine("ammount   : \n");
+    double v77 = double.Parse(Console.ReadLine());
+
+//         Address d = new Address("12","2/56a","Dinajpur","Bangladesh");  
+//          Account a2 = new Account("juli","1/10/2001",5400.00,d1);
+Address d11 = new Address(v66,v55,v44,v33);
+Account a11 = new Account(v11,v22,v77,d11,"checking");
+b.add_account(a11);
+//b.Print_account_details();
+
+Console.WriteLine("  successfully account created !! \n");
+
+    break;
+    case "quit":
+    g=2;
+    break;
+    default:
+    Console.WriteLine("some thing went wrong ......");
+    break;
+
+  }
+
+}
+  
+    
+    break;
+
+  case "account":
+  while(g!=3)
+  {
+  Console.WriteLine("    Give an input deposite/withdraw/transfer/show/quit \n");
+  string choice2 = Console.ReadLine();
+  switch(choice2)
+  {
+    case "deposite":
+     Console.WriteLine(" give your name : ");
+     string name1=Console.ReadLine();
+         Console.WriteLine(" give your date of birth : ");
+     string date_of_birth1=Console.ReadLine();
+     Account customer1 = b.search_person(name1,date_of_birth1);
+     b.Transaction(2,customer1);
+
+    break;
+
+    case "withdraw":
+      Console.WriteLine(" give your name : ");
+     string name2=Console.ReadLine();
+         Console.WriteLine(" give your date of birth : ");
+     string date_of_birth2=Console.ReadLine();
+     Account customer2 = b.search_person(name2,date_of_birth2);
+     b.Transaction(3,customer2);
+    break;
+    case "transfer":
+        Console.WriteLine(" give your name : ");
+     string name3=Console.ReadLine();
+         Console.WriteLine(" give your date of birth : ");
+     string date_of_birth3=Console.ReadLine();
+     Account customer3 = b.search_person(name3,date_of_birth3);
+     b.Transaction(1,customer3);
+    break;
+    case "show":
+
+        Console.WriteLine(" give your name : ");
+     string name4=Console.ReadLine();
+         Console.WriteLine(" give your date of birth : ");
+     string date_of_birth4=Console.ReadLine();
+     Account customer4 = b.search_person(name4,date_of_birth4);
+     b.show_account_balance_tranziton_times(customer4);
+
+
+
+    break;
+    case "quit":
+    g=3;
+    break;
+    default:
+    Console.WriteLine("some thing went wrong ......");
+    break;
+
+  }
+}
+    break;
+
+  case "quit":
+  g=1;
+  break;
+
+  default:
+    Console.WriteLine("some thing went wrong ......");
+    break;
+}
+
+
+
+
+}
+
+
+
+b.Print_account_details();
+
+
+
+        return 0;  
+    }  
+}
